@@ -14,3 +14,10 @@ class AgentState(BaseModel):
     identified_columns: Optional[Dict[str, List[str]]] = None
     fuzzy_filters: Optional[Dict[str, Any]] = None # This will store the extracted filters (e.g., {"company_name": "ACME Corp"})
     
+
+from pydantic import BaseModel
+from typing import List, Dict
+
+class Query(BaseModel):
+    question: str
+    history: List[Dict[str, str]]  # role: "user" or "assistant", content: str
