@@ -1,4 +1,4 @@
-#!/Users/akul/supplier-ai-agent/venv/bin/python3.12
+#!/Users/akul/finance-agent/venv/bin/python3.12
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function

@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+openai
+langchain
+langgraph
+langchain-community
+langchain-core
+sqlalchemy
+pymysql
+python-dotenv
+requests
+charset_normalizer
+pydantic<2.0

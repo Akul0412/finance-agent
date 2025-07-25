@@ -1,31 +1,27 @@
 import React, { useState } from 'react';
 import './App.css';
-import logo from './centime.png';
 
 function App() {
   const [question, setQuestion] = useState('');
-  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = async () => {
+  const handleSend = async () => {
     if (!question.trim()) return;
-
-    const userMessage = { type: 'user', text: question };
-    setMessages((prev) => [...prev, userMessage]);
     setLoading(true);
     setError('');
-    setQuestion('');
+    setResponse('');
 
     try {
       const res = await fetch('http://localhost:8000/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: userMessage.text })
+        body: JSON.stringify({ question })
       });
+
       const data = await res.json();
-      const botMessage = { type: 'bot', text: typeof data.output === 'object' ? data.output.content : data.output };
-      setMessages((prev) => [...prev, botMessage]);
+      setResponse(data.output || 'No response.');
     } catch (err) {
       setError('Something went wrong.');
     } finally {
@@ -34,41 +30,25 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <header className="header">
-        <img src={logo} alt="Centime Logo" className="logo" />
-        <h1>Centime Supplier AI</h1>
-      </header>
+    <div className="modern-ui">
+      <div className="query-card">
+        <h1 className="title">Supplier Analytics AI</h1>
+        <p className="description">Ask questions about your suppliers, bills, and payments</p>
 
-      <main className="main">
-        <div className="chat-container">
-          <div className="chat-box">
-            {messages.map((msg, idx) => (
-              <div key={idx} className={`chat-message ${msg.type}`}>
-                {msg.text}
-              </div>
-            ))}
-            {loading && <div className="chat-message bot loading">...</div>}
-          </div>
+        <textarea
+          className="query-input"
+          placeholder="Ask me anything about your database… e.g., 'Show me all customers from California'"
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+        />
 
-          <div className="input-area">
-            <textarea
-              className="question-input"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Ask me about your suppliers, spend, or payments..."
-            />
-            <button className="submit-btn" onClick={handleSubmit} disabled={loading}>
-              {loading ? 'Thinking...' : 'Ask'}
-            </button>
-          </div>
-          {error && <div className="error-text">{error}</div>}
-        </div>
-      </main>
+        <button className="send-btn" onClick={handleSend} disabled={loading}>
+          {loading ? 'Thinking...' : 'Send Query'}
+        </button>
 
-      <footer className="footer">
-        © 2025 Centime AI • Powered by LangChain + React
-      </footer>
+        {error && <p className="error">{error}</p>}
+        {response && <div className="response">{response}</div>}
+      </div>
     </div>
   );
 }

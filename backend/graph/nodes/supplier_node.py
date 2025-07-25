@@ -59,7 +59,8 @@ def supplier_node(state: AgentState, config) -> dict:
 
     try:
         extracted_schema_info = supplier_schema_extractor_chain.invoke({"question": user_input})
-        
+    
+        print("Trying Suppliers Node")
         
         identified_tables = extracted_schema_info.get("relevant_tables", [])
         identified_columns = extracted_schema_info.get("identified_columns", {})

@@ -58,6 +58,8 @@ query_chain = query_prompt | llm
 
 def query_generator_node(state: AgentState, config) -> dict:
     question = state.messages[-1].content
+
+    print("Trying Query Generator Node")
     
     # Provide default empty values if not set by previous nodes
     identified_tables = state.identified_tables or []

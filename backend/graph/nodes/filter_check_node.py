@@ -16,6 +16,7 @@ def get_latest_user_input(messages):
 def filter_check_node(state: AgentState, config) -> dict:
     user_input = get_latest_user_input(state.messages)
 
+    print("Trying Filter Check Node")
     
     needs_filter = "where" in user_input.lower() or "filter" in user_input.lower() or "filters" in user_input.lower()
 
